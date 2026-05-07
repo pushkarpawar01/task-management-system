@@ -1,0 +1,212 @@
+/* Existing styles plus new ones */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.toggle-auth {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.toggle-auth button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+.error-msg {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+}
+
+.logout-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn:hover {
+  color: var(--primary);
+}
+
+/* Edit Mode Styles */
+.edit-mode {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.edit-mode input, .edit-mode textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--primary);
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+  color: white;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.save-btn {
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.cancel-btn {
+  background: var(--text-muted);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Re-include original styles for consistency */
+.add-form {
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-group input, .input-group textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 1rem;
+}
+
+.add-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task-item {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.task-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+}
+
+.check-btn {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--text-muted);
+}
+
+.checked {
+  color: var(--success);
+}
+
+.task-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.task-info p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.completed .task-info h3 {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+}
+
+.delete-btn:hover {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.loading, .empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}

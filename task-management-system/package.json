@@ -1,0 +1,11 @@
+{
+  "name": "task-management-system",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "cd server && npm start",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build"
+  }
+}
