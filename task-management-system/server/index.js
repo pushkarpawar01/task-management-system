@@ -40,7 +40,7 @@ const Task = mongoose.model('Task', taskSchema);
 
 // Auth Middleware
 const auth = (req, res, next) => {
-  const token = req.header('x-auth-token');
+  const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
 
   try {
@@ -51,6 +51,16 @@ const auth = (req, res, next) => {
     res.status(401).json({ message: 'Token is not valid' });
   }
 };
+
+// Auth Routes
+app.get('/api/auth/user', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // Auth Routes
 app.post('/api/auth/register', async (req, res) => {
@@ -136,6 +146,11 @@ app.delete('/api/tasks/:id', auth, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+
+app.get("/", (req, res) => {
+  res.send("Server Running");
 });
 
 // Serve static assets in production

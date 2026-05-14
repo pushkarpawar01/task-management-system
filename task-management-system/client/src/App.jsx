@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import AuthContext from './context/AuthContext';
 import { Plus, Trash2, CheckCircle, Circle, Clock, LogOut, Edit2, Check, X } from 'lucide-react';
 import './App.css';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
-
 function App() {
+  const { user, token, loading: authLoading, login, logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [tasksLoading, setTasksLoading] = useState(false);
   
   // Auth state
   const [isLogin, setIsLogin] = useState(true);
@@ -31,17 +29,15 @@ function App() {
   }, [token]);
 
   const fetchTasks = async () => {
-    setLoading(true);
+    setTasksLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/tasks`, {
-        headers: { 'x-auth-token': token }
-      });
+      const response = await axios.get('/api/tasks');
       setTasks(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error('Error fetching tasks:', err);
-      if (err.response?.status === 401) handleLogout();
+      if (err.response?.status === 401) logout();
     } finally {
-      setLoading(false);
+      setTasksLoading(false);
     }
   };
 
@@ -50,33 +46,19 @@ function App() {
     setAuthError('');
     const endpoint = isLogin ? 'login' : 'register';
     try {
-      const response = await axios.post(`${API_URL}/auth/${endpoint}`, { email, password });
+      const response = await axios.post(`/api/auth/${endpoint}`, { email, password });
       const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      setToken(token);
-      setUser(user);
+      login(token, user);
     } catch (err) {
       setAuthError(err.response?.data?.message || 'Authentication failed');
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setToken(null);
-    setUser(null);
-    setTasks([]);
   };
 
   const addTask = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
     try {
-      const response = await axios.post(`${API_URL}/tasks`, 
-        { title, description },
-        { headers: { 'x-auth-token': token } }
-      );
+      const response = await axios.post('/api/tasks', { title, description });
       setTasks([response.data, ...tasks]);
       setTitle('');
       setDescription('');
@@ -87,10 +69,7 @@ function App() {
 
   const toggleComplete = async (id, completed) => {
     try {
-      const response = await axios.put(`${API_URL}/tasks/${id}`, 
-        { completed: !completed },
-        { headers: { 'x-auth-token': token } }
-      );
+      const response = await axios.put(`/api/tasks/${id}`, { completed: !completed });
       setTasks(tasks.map(t => t._id === id ? response.data : t));
     } catch (err) {
       console.error('Error toggling task:', err);
@@ -109,10 +88,7 @@ function App() {
 
   const saveEdit = async (id) => {
     try {
-      const response = await axios.put(`${API_URL}/tasks/${id}`, 
-        { title: editTitle, description: editDescription },
-        { headers: { 'x-auth-token': token } }
-      );
+      const response = await axios.put(`/api/tasks/${id}`, { title: editTitle, description: editDescription });
       setTasks(tasks.map(t => t._id === id ? response.data : t));
       setEditingId(null);
     } catch (err) {
@@ -122,14 +98,20 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`${API_URL}/tasks/${id}`, {
-        headers: { 'x-auth-token': token }
-      });
+      await axios.delete(`/api/tasks/${id}`);
       setTasks(tasks.filter(t => t._id !== id));
     } catch (err) {
       console.error('Error deleting task:', err);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="container auth-container">
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
 
   if (!token) {
     return (
@@ -177,7 +159,7 @@ function App() {
         <h1>Task Manager</h1>
         <div className="user-info">
           <span>{user?.email}</span>
-          <button onClick={handleLogout} className="logout-btn">
+          <button onClick={logout} className="logout-btn">
             <LogOut size={18} />
           </button>
         </div>
@@ -207,7 +189,7 @@ function App() {
       </form>
 
       <div className="task-list">
-        {loading ? (
+        {tasksLoading ? (
           <div className="loading">Loading tasks...</div>
         ) : tasks.length === 0 ? (
           <div className="empty-state glass">
