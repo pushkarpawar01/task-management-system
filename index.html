@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Chatbot</title>
+
+    <style>
+
+        body{
+            margin: 0;
+            font-family: Arial;
+            background: lightblue;
+        }
+
+        h1{
+            background: blue;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
+
+        .content{
+            padding: 20px;
+        }
+
+        /* Chat Button */
+        .chat-icon{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: blue;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Chat Window */
+        #chatWindow{
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            overflow: hidden;
+        }
+
+        /* Chat Header */
+        .chat-header{
+            background: blue;
+            color: white;
+            padding: 12px;
+            font-size: 18px;
+        }
+
+        .close-btn{
+            float: right;
+            cursor: pointer;
+        }
+
+        /* Chat Body */
+        #chatBody{
+            height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+
+        #chatBody p{
+            margin: 10px 0;
+        }
+
+        /* Input Area */
+        .chat-footer{
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #ccc;
+        }
+
+        #userInput{
+            flex: 1;
+            padding: 8px;
+        }
+
+        button{
+            padding: 8px 15px;
+            background: blue;
+            color: white;
+            border: none;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>City Hospital</h1>
+
+    <div class="content">
+        <h3>About Us</h3>
+        <p>Healthcare services available.</p>
+    </div>
+
+    <!-- Chat Button -->
+    <div class="chat-icon" onclick="openChat()">
+        Chat
+    </div>
+
+    <!-- Chat Window -->
+    <div id="chatWindow">
+
+        <!-- Header -->
+        <div class="chat-header">
+            Chatbot
+            <span class="close-btn" onclick="closeChat()">X</span>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatBody">
+            <p>
+                <b>Bot:</b> Hello User! I can help you with
+                Doctor, Appointment, Emergency, Timing,
+                Location and Fees.
+            </p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="chat-footer">
+            <input type="text" id="userInput" placeholder="Type message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
